@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Five limited hotel stays in Las Vegas, Honolulu, Washington, D.C., and Miami Beach.">
+  <title>Celebrate Somewhere New</title>
+  <style>
+    :root{--ink:#20201e;--muted:#6f706b;--paper:#f7f4ee;--card:#fff;--accent:#ce613c;--accent-dark:#9e3e22;--line:#e5dfd5;--focus:#0a67a3;--shadow:0 18px 46px rgba(35,31,25,.09);--radius:24px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+    button,input,textarea{font:inherit}
+    button,a{tap-highlight-color:transparent}
+    :focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+    .shell{width:min(1240px,calc(100% - 32px));margin:auto}
+    header{padding:72px 0 44px;text-align:center}
+    .eyebrow{margin:0 0 12px;color:var(--accent-dark);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.5rem,6vw,5.2rem);font-weight:500;line-height:.98;letter-spacing:-.045em}
+    .intro{margin:18px auto 0;color:var(--muted);font-size:clamp(1rem,2vw,1.2rem)}
+    .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:24px;padding-bottom:76px}
+    .card{grid-column:span 2;display:flex;min-width:0;flex-direction:column;overflow:hidden;background:var(--card);border:1px solid rgba(31,29,24,.08);border-radius:var(--radius);box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+    .card:nth-child(4){grid-column:2/span 2}.card:nth-child(5){grid-column:4/span 2}
+    .card:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(35,31,25,.13)}
+    .cover{position:relative;aspect-ratio:16/10;display:flex;align-items:flex-end;overflow:hidden;padding:24px;color:#fff;background:var(--cover);isolation:isolate}
+    .cover::before{content:"";position:absolute;inset:0;z-index:-3;background:linear-gradient(150deg,var(--tone1),var(--tone2))}
+    .cover::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 25%,rgba(13,13,13,.7));opacity:.9}
+    .cover-image{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+    .cover-mark{position:absolute;right:-10px;top:-24px;font-family:Georgia,serif;font-size:8rem;line-height:1;color:rgba(255,255,255,.1);transform:rotate(-8deg)}
+    .cover h2{margin:8px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2rem,3vw,2.75rem);font-weight:500;line-height:1}
+    .occasion{display:inline-block;padding:6px 9px;border-radius:999px;background:#fff;color:#25231f;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .carousel{position:relative;background:#ebe6dd}
+    .slide{aspect-ratio:16/8.2;display:flex;align-items:center;justify-content:center;padding:0;text-align:center;color:#fff;background:linear-gradient(135deg,#eee9e0,#ded6c9)}
+    .slide[hidden]{display:none}
+    .slide-button{position:relative;width:100%;height:100%;padding:0;overflow:hidden;border:0;background:none;color:inherit;cursor:zoom-in}
+    .slide-image{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s ease}
+    .slide-button:hover .slide-image{transform:scale(1.025)}
+    .slide-caption{position:absolute;right:0;bottom:0;left:0;padding:24px 48px 12px;background:linear-gradient(transparent,rgba(0,0,0,.72));font-size:.75rem;font-weight:750;text-align:left}
+    .slide-fallback{display:none;height:100%;padding:25px;place-items:center;color:#4a4944}.image-failed .slide-image,.image-failed .slide-caption{display:none}.image-failed .slide-fallback{display:grid}
+    .slide-icon{display:grid;width:46px;height:46px;margin:0 auto 10px;place-items:center;border:1px solid rgba(52,50,46,.22);border-radius:50%;font-size:1.25rem}
+    .slide strong{display:block;font-size:.88rem}.slide small{display:block;margin-top:3px;color:#6c6a63}
+    .arrow{position:absolute;top:50%;display:grid;width:34px;height:34px;place-items:center;transform:translateY(-50%);border:0;border-radius:50%;background:rgba(255,255,255,.94);color:#222;box-shadow:0 3px 12px rgba(0,0,0,.12);cursor:pointer}
+    .arrow:hover{background:#fff}.prev{left:12px}.next{right:12px}
+    .dots{position:absolute;bottom:10px;left:50%;display:flex;gap:5px;transform:translateX(-50%)}
+    .dot{width:6px;height:6px;padding:0;border:0;border-radius:50%;background:rgba(37,36,32,.3);cursor:pointer}.dot.active{width:18px;border-radius:5px;background:var(--accent)}
+    .content{display:flex;flex:1;flex-direction:column;padding:22px}
+    .hotel{min-height:48px;margin:0;font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:600;line-height:1.18}
+    .date{margin:12px 0 2px;font-size:.9rem;font-weight:750}.duration{margin:0;color:var(--muted);font-size:.82rem}
+    .specs{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0}.chip{padding:6px 9px;border-radius:8px;background:#f3efe8;color:#58564f;font-size:.72rem;font-weight:700}
+    .price-row{display:flex;align-items:end;justify-content:space-between;margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+    .price-label{color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.price{display:block;color:var(--accent-dark);font-family:Georgia,serif;font-size:2rem;font-weight:700;letter-spacing:.04em;line-height:1}
+    .availability{max-width:105px;text-align:right;color:var(--muted);font-size:.67rem}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+    .btn{min-height:43px;padding:10px 12px;border:1px solid var(--ink);border-radius:11px;background:var(--ink);color:#fff;font-size:.78rem;font-weight:800;cursor:pointer}.btn:hover{background:#000}.btn.secondary{background:#fff;color:var(--ink)}.btn.secondary:hover{background:#f3efe8}
+    .details{margin-top:16px;padding:15px;border-radius:12px;background:#f7f3ec;color:#55534d;font-size:.75rem}.details[hidden]{display:none}.details ul{margin:0 0 10px;padding-left:18px}.details p{margin:7px 0}.source{color:var(--accent-dark);font-weight:750}
+    footer{padding:30px 0 52px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem;text-align:center}footer p{max-width:780px;margin:8px auto}.contact-pill{display:inline-flex;gap:8px;align-items:center;margin-bottom:10px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-weight:750}
+    .modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:18px;background:rgba(20,19,17,.7)}.modal[hidden]{display:none}.dialog{position:relative;width:min(520px,100%);max-height:90vh;overflow:auto;padding:28px;border-radius:22px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.3)}.dialog h2{margin:0 0 6px;font-family:Georgia,serif;font-size:2rem}.dialog>p{margin:0 0 20px;color:var(--muted)}.close{position:absolute;right:16px;top:16px;width:36px;height:36px;border:0;border-radius:50%;background:#eee9e1;cursor:pointer}.field{display:block;margin:13px 0;color:#4d4b45;font-size:.75rem;font-weight:750}.field input,.field textarea{width:100%;margin-top:6px;padding:12px;border:1px solid #cbc5bb;border-radius:10px;background:#fff;color:var(--ink)}.field textarea{min-height:110px;resize:vertical}.dialog .btn{width:100%;margin-top:5px}.form-note{padding:12px;border-radius:10px;background:#f4efe7;color:#5f5a51;font-size:.72rem}.success{margin-top:12px;padding:12px;border-radius:10px;background:#e8f2e8;color:#235b2b;font-size:.8rem;font-weight:700}.lightbox .dialog{width:min(760px,100%);text-align:center}.lightbox-stage{display:grid;min-height:330px;place-items:center;margin-top:18px;overflow:hidden;border-radius:15px;background:linear-gradient(135deg,#eee9e0,#d8d0c2);color:#4a4944}.lightbox-stage img{display:block;width:100%;max-height:70vh;object-fit:contain}.noscript{padding:14px;background:#fff1cc;text-align:center}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.card,.card:nth-child(4){grid-column:auto}.card:nth-child(5){grid-column:1/-1;width:calc(50% - 12px);justify-self:center}.cover h2{font-size:2.4rem}}
+    @media(max-width:620px){.shell{width:min(100% - 20px,480px)}header{padding:48px 0 32px}.grid{display:block}.card,.card:nth-child(5){width:100%;margin-bottom:20px}.cover h2{font-size:2.65rem}.actions{grid-template-columns:1fr}.hotel{min-height:auto}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <noscript><div class="noscript">This page needs JavaScript for the carousels and inquiry form.</div></noscript>
+  <header class="shell">
+    <p class="eyebrow">Limited 2026–2027 stays</p>
+    <h1>Celebrate Somewhere New</h1>
+    <p class="intro">Five destinations. Five unforgettable getaways.</p>
+  </header>
+  <main class="shell"><section class="grid" id="stays" aria-label="Available hotel stays"></section></main>
+  <footer>
+    <div class="shell">
+      <div class="contact-pill">Contact: <span>[PHONE NUMBER]</span> · <span>[@INSTAGRAM]</span></div>
+      <p>City photographs are sourced from Pexels or Unsplash. Property photographs link to their original hotel or listing pages in each Stay Details panel.</p>
+      <p>Availability and pricing are subject to confirmation. Confirm image-reuse permission before publishing a commercial advertisement.</p>
+    </div>
+  </footer>
+
+  <div class="modal" id="inquiryModal" hidden role="dialog" aria-modal="true" aria-labelledby="inquiryTitle">
+    <div class="dialog">
+      <button class="close" type="button" aria-label="Close inquiry form">×</button>
+      <h2 id="inquiryTitle">Check availability</h2>
+      <p id="inquirySubtitle"></p>
+      <form id="inquiryForm">
+        <label class="field">Name<input name="name" autocomplete="name" required></label>
+        <label class="field">Email<input name="email" type="email" autocomplete="email" required></label>
+        <label class="field">Destination<input name="destination" id="destinationInput" readonly></label>
+        <label class="field">Message<textarea name="message" required></textarea></label>
+        <p class="form-note">Preview only: connect this form to your preferred contact method before publishing. Or replace it with your phone number or Instagram link.</p>
+        <button class="btn" type="submit">Prepare availability request</button>
+        <div class="success" id="success" hidden>Request prepared. Add your contact endpoint before publishing so it can be delivered.</div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="dialog">
+      <button class="close" type="button" aria-label="Close enlarged image">×</button>
+      <h2 id="lightboxTitle">Property photograph</h2>
+      <div class="lightbox-stage"><img id="lightboxImage" alt=""></div><p id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <script>
+    const destinations=[
+      {city:'Las Vegas',mark:'LV',occasion:'Spring Escape',hotel:'Bluegreen Club 36™',dates:'March 5–8, 2027',duration:'3 nights · 4 days',specs:['1-bedroom suite','Up to 4 guests'],price:'$$$',tones:['#c98956','#713b51'],source:'https://www.bluegreenvacations.com/resorts/nevada/bluegreen-club-36',cover:{url:'https://images.pexels.com/photos/19023575/pexels-photo-19023575/free-photo-of-bellagio.jpeg?auto=compress&dpr=1&h=900&w=1400',alt:'Daytime view of the Las Vegas Strip and Bellagio',credit:'Yannick · Pexels',source:'https://www.pexels.com/photo/bellagio-19023575/'},rooms:[
+        {url:'https://cf.bstatic.com/xdata/images/hotel/max1024x768/332625419.jpg?k=63fc3e69145fc9b09299b7972f4c2587c27cadb53bc383b0062da5cf26232d82&o=',caption:'One-bedroom suite living area',alt:'Living area at Bluegreen Club 36',source:'https://www.booking.com/hotel/us/bluegreen-club-36.html'},
+        {url:'https://media.vrbo.com/lodging/54000000/53160000/53152800/53152753/cc6a20f1.jpg?impolicy=resizecrop&ra=fill&rh=900&rw=1400',caption:'Suite kitchen and dining area',alt:'Kitchen and dining area at Bluegreen Club 36',source:'https://www.vrbo.com/1978668'},
+        {url:'https://x.cdrst.com/foto/hotel-sf/12c19d01/granderesp/foto-hotel-12c19257.jpg',caption:'Indoor pool area',alt:'Indoor pool area at Bluegreen Club 36',source:'https://reserving.com/hotels/america/united-states/nevada/clark/las-vegas/bluegreen-vacations-club-36'}]},
+      {city:'Honolulu',mark:'HI',occasion:'Valentine’s Getaway',hotel:'Hokulani Waikiki, a Hilton Grand Vacations Club',dates:'February 12–15, 2027',duration:'3 nights · 4 days',specs:['1-bedroom suite','2 guests'],price:'$$$$',tones:['#df9d71','#397f86'],source:'https://www.hiltongrandvacations.com/en/resorts-and-destinations/hawaii/hokulani-waikiki-a-hilton-grand-vacations-club',cover:{url:'https://images.unsplash.com/photo-1698094276348-c542aa9c5609?auto=format&fit=crop&w=1600&q=85',alt:'Aerial view of Waikiki Beach and Honolulu',credit:'Unsplash',source:'https://unsplash.com/s/photos/waikiki-beach'},rooms:[
+        {url:'https://www.hilton.com/im/en/HNLWBGV/14202113/hnlwb-hi-res-suite-king-interior.jpg?ch=2812&cw=3750&gravity=NorthWest&impolicy=crop&rh=900&rw=1200&xposition=625&yposition=0',caption:'One-bedroom king suite',alt:'King suite at Hokulani Waikiki',source:'https://www.hilton.com/en/hotels/hnlwbgv-hilton-grand-vacations-club-hokulani-waikiki-honolulu/rooms/'},
+        {url:'https://images.trvl-media.com/lodging/6000000/5940000/5931900/5931884/42080231.jpg?h=800&impolicy=fcrop&quality=medium&w=1200',caption:'Suite living area',alt:'Living area at Hokulani Waikiki',source:'https://www.expedia.co.jp/Honolulu-Hotels-Hokulani-Waikiki-By-Hilton-Grand-Vacations.h5931884.Hotel-Information'},
+        {url:'https://www.hilton.com/im/en/HNLWBGV/27635748/hnlwb-pool.jpg?ch=2518&cw=4498&gravity=NorthWest&impolicy=crop&rh=700&rw=1200&xposition=0&yposition=240',caption:'Rooftop pool and city view',alt:'Rooftop pool at Hokulani Waikiki',source:'https://www.hilton.com/en/hotels/hnlwbgv-hilton-grand-vacations-club-hokulani-waikiki-honolulu/'}]},
+      {city:'Washington, D.C.',mark:'DC',occasion:'New Year’s Eve',hotel:'The District, a Hilton Club',dates:'December 31, 2026 – January 3, 2027',duration:'3 nights · 4 days',specs:['1-bedroom suite','Up to 4 guests'],price:'$$$',tones:['#596b7d','#241f3b'],source:'https://www.hiltongrandvacations.com/en/resorts-and-destinations/virginia-and-washington-dc/the-district-a-hilton-club',cover:{url:'https://images.pexels.com/photos/6609623/pexels-photo-6609623.jpeg?auto=compress&dpr=1&h=900&w=1400',alt:'Washington Monument illuminated at night',credit:'imtiaz hussain · Pexels',source:'https://www.pexels.com/photo/illuminated-column-monument-at-night-6609623/'},rooms:[
+        {url:'https://assets.apps.onegrandvacation.com/hgvdotcom-mkt-assets/media/images/main/resorts/virginia-and-dc/the-district/gallery/wasvc-1bdrm-1kg-sfbd-liv-2023-k1dru1-002_880x495.jpg?h=700&hash=2F29C25AABDCCACA25636E68FBEFFC70&w=1244',caption:'One-bedroom suite living area',alt:'One-bedroom suite at The District',source:'https://www.hiltongrandvacations.com/en/resorts-and-destinations/virginia-and-washington-dc/the-district-a-hilton-club'},
+        {url:'https://images.trvl-media.com/lodging/104000000/103510000/103506700/103506606/679e0957.jpg?impolicy=resizecrop&ra=fill&rh=800&rw=1200',caption:'Indoor pool',alt:'Indoor pool at The District',source:'https://www.expedia.com/Washington-Hotels-The-District.h103506606.Hotel-Information'},
+        {url:'https://hotelmedia.s3.amazonaws.com/720/480/c4cbfcb11f95fac61fda8cc57c6f83b91b939f65',caption:'Hotel atrium and lobby',alt:'Atrium lobby at The District',source:'https://www.bookonline.com/hotel/the-district-by-hilton-club'}]},
+      {city:'Las Vegas',mark:'NYE',occasion:'New Year’s Eve',hotel:'Paradise, a Hilton Grand Vacations Club',dates:'December 31, 2026 – January 3, 2027',duration:'3 nights · 4 days',specs:['Studio','2 guests'],price:'$$$',tones:['#814d76','#1c2947'],source:'https://www.hiltongrandvacations.com/en/resorts-and-destinations/las-vegas/paradise-a-hilton-grand-vacations-club',cover:{url:'https://images.pexels.com/photos/161772/las-vegas-nevada-cities-urban-161772.jpeg?auto=compress&dpr=1&h=900&w=1400',alt:'Aerial view of the Las Vegas Strip at night',credit:'Pixabay · Pexels',source:'https://www.pexels.com/photo/aerial-photography-of-city-during-evening-161772/'},rooms:[
+        {url:'https://www.hilton.com/im/en/LASLVGV/22159423/laslv-hi-res-suite-living-interior.jpg?ch=3000&cw=4500&gravity=NorthWest&impolicy=crop&rh=854&rw=1280&xposition=0&yposition=0',caption:'Suite living and kitchen area',alt:'Suite living area at Hilton Grand Vacations Club Paradise',source:'https://www.hilton.com/en/hotels/laslvgv-hilton-grand-vacations-club-paradise-las-vegas/'},
+        {url:'https://www.hilton.com/im/en/LASLVGV/22159432/laslv-hi-res-suite-bedroom-interior.jpg?ch=2812&cw=3750&gravity=NorthWest&impolicy=crop&rh=900&rw=1200&xposition=625&yposition=0',caption:'Suite bedroom',alt:'Suite bedroom at Hilton Grand Vacations Club Paradise',source:'https://www.hilton.com/en/hotels/laslvgv-hilton-grand-vacations-club-paradise-las-vegas/rooms/'},
+        {url:'https://a0.muscache.com/im/pictures/miso/Hosting-1329898909130983396/original/45ef9645-a887-450c-911c-caf9438de530.jpeg?auto=webp&im_w=1200&quality=80&width=1200',caption:'Studio with two beds',alt:'Studio accommodation at Hilton Grand Vacations Club Paradise',source:'https://www.airbnb.fr/rooms/1329898909130983396'}]},
+      {city:'Miami Beach',mark:'MB',occasion:'Winter Sun',hotel:'Crescent on South Beach, a Hilton Vacation Club',dates:'January 8–11, 2027',duration:'3 nights · 4 days',specs:['1-bedroom suite','Partial ocean view','4 guests'],price:'$$$',tones:['#e78b72','#1e8186'],source:'https://www.hiltongrandvacations.com/en/resorts-and-destinations/florida/crescent-on-south-beach-a-hilton-vacation-club',cover:{url:'https://images.pexels.com/photos/33416033/pexels-photo-33416033/free-photo-of-vibrant-day-at-iconic-miami-beach-boulevard.jpeg?auto=compress&dpr=1&h=900&w=1400',alt:'Ocean Drive and Art Deco hotels in Miami Beach',credit:'Edgar Arroyo · Pexels',source:'https://www.pexels.com/photo/vibrant-day-at-iconic-miami-beach-boulevard-33416033/'},rooms:[
+        {url:'https://www.hilton.com/im/en/MIACRGV/18312677/miacr-hi-res-suite-1-bedroom-primary-interior.jpg?ch=2812&cw=3750&gravity=NorthWest&impolicy=crop&rh=900&rw=1200&xposition=625&yposition=0',caption:'One-bedroom king suite',alt:'One-bedroom suite at Crescent on South Beach',source:'https://www.hilton.com/en/hotels/miacrgv-hilton-vacation-club-crescent-on-south-beach-miami/rooms/'},
+        {url:'https://www.hilton.com/im/en/MIACRGV/18312700/miacr-hi-res-suite-1-bedroom-plus-living-room-interior.jpg?ch=3000&cw=4028&gravity=NorthWest&impolicy=crop&rh=806&rw=1200&xposition=235&yposition=0',caption:'Suite living room and kitchen',alt:'Living area at Crescent on South Beach',source:'https://www.hilton.com/en/hotels/miacrgv-hilton-vacation-club-crescent-on-south-beach-miami/gallery/'},
+        {url:'https://bynder.onthebeach.co.uk/cdn-cgi/image/width%3D1400%2Cquality%3D80%2Cfit%3Dcover%2Cformat%3Dauto/m/42befa5cebcc1323/original/Hilton-Vacation-Club-Crescent-on-South-Beach-Miami-United-States-Miami-Beach-Sports-and-Entertainment-0.jpg',caption:'Rooftop terrace and ocean view',alt:'Rooftop terrace at Crescent on South Beach',source:'https://www.onthebeach.co.uk/hotels/usa/miami/south-beach/hilton-vacation-club-crescent-on-south-beach-miami'}]}
+    ];
+    const states=destinations.map(()=>0);let lastFocus=null;
+    const grid=document.querySelector('#stays');
+    const esc=s=>String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    function cardTemplate(d,i){return `<article class="card" data-index="${i}">
+      <div class="cover" style="--tone1:${d.tones[0]};--tone2:${d.tones[1]}">
+        <img class="cover-image" src="${esc(d.cover.url)}" alt="${esc(d.cover.alt)}" loading="lazy"><span class="cover-mark" aria-hidden="true">${esc(d.mark)}</span>
+        <div><span class="occasion">${esc(d.occasion)}</span><h2>${esc(d.city)}</h2></div>
+      </div>
+      <div class="carousel" aria-label="${esc(d.hotel)} photo carousel">
+        ${d.rooms.map((r,j)=>`<div class="slide" data-slide="${j}" ${j?'hidden':''}><button class="slide-button" type="button" data-lightbox="${j}" aria-label="Enlarge ${esc(r.caption)}"><img class="slide-image" src="${esc(r.url)}" alt="${esc(r.alt)}" loading="${j?'lazy':'eager'}"><span class="slide-caption">${esc(r.caption)}</span><span class="slide-fallback"><span><span class="slide-icon" aria-hidden="true">▧</span><strong>Image unavailable</strong><small>View the original source in Stay Details</small></span></span></button></div>`).join('')}
+        <button class="arrow prev" type="button" aria-label="Previous hotel image">‹</button><button class="arrow next" type="button" aria-label="Next hotel image">›</button>
+        <div class="dots" aria-label="Choose hotel image">${d.rooms.map((_,j)=>`<button class="dot ${j===0?'active':''}" type="button" data-go="${j}" aria-label="Show image ${j+1}"></button>`).join('')}</div>
+      </div>
+      <div class="content">
+        <h3 class="hotel">${esc(d.hotel)}</h3><p class="date">${esc(d.dates)}</p><p class="duration">${esc(d.duration)}</p>
+        <div class="specs">${d.specs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>
+        <div class="price-row"><div><span class="price-label">Price tier</span><span class="price">${esc(d.price)}</span></div><span class="availability">Limited stay<br>Confirm availability</span></div>
+        <div class="actions"><button class="btn details-toggle" type="button" aria-expanded="false">View Stay</button><button class="btn secondary inquire" type="button">Check for Availability</button></div>
+        <div class="details" hidden><p><strong>Room:</strong> ${esc(d.specs.join(' · '))}</p><p><a class="source" href="${esc(d.source)}" target="_blank" rel="noopener noreferrer">View official property page ↗</a></p><p><a class="source" href="${esc(d.cover.source)}" target="_blank" rel="noopener noreferrer">City photo: ${esc(d.cover.credit)} ↗</a></p>${d.rooms.map((r,j)=>`<p><a class="source" href="${esc(r.source)}" target="_blank" rel="noopener noreferrer">Hotel image ${j+1} source ↗</a></p>`).join('')}<p>Availability and pricing are subject to confirmation.</p></div>
+      </div></article>`}
+    grid.innerHTML=destinations.map(cardTemplate).join('');
+    function updateCarousel(card,index){const i=+card.dataset.index;const slides=[...card.querySelectorAll('.slide')];states[i]=(index+slides.length)%slides.length;slides.forEach((s,j)=>s.hidden=j!==states[i]);card.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===states[i]));}
+    grid.addEventListener('click',e=>{const card=e.target.closest('.card');if(!card)return;const i=+card.dataset.index;
+      if(e.target.closest('.prev'))updateCarousel(card,states[i]-1);if(e.target.closest('.next'))updateCarousel(card,states[i]+1);
+      const dot=e.target.closest('[data-go]');if(dot)updateCarousel(card,+dot.dataset.go);
+      const toggle=e.target.closest('.details-toggle');if(toggle){const details=card.querySelector('.details');details.hidden=!details.hidden;toggle.setAttribute('aria-expanded',String(!details.hidden));toggle.textContent=details.hidden?'View Stay':'Hide Details'}
+      if(e.target.closest('.inquire'))openInquiry(destinations[i],e.target.closest('.inquire'));
+      const lb=e.target.closest('[data-lightbox]');if(lb)openLightbox(destinations[i].rooms[+lb.dataset.lightbox],lb);
+    });
+    grid.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;const card=e.target.closest('.card');if(!card)return;e.preventDefault();const i=+card.dataset.index;updateCarousel(card,states[i]+(e.key==='ArrowRight'?1:-1));});
+    let touchX=0;grid.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].screenX},{passive:true});grid.addEventListener('touchend',e=>{const card=e.target.closest('.card');if(!card)return;const delta=e.changedTouches[0].screenX-touchX;if(Math.abs(delta)>45){const i=+card.dataset.index;updateCarousel(card,states[i]+(delta<0?1:-1));}},{passive:true});
+    const inquiry=document.querySelector('#inquiryModal'),lightbox=document.querySelector('#lightbox');
+    function openModal(modal,trigger){lastFocus=trigger;modal.hidden=false;document.body.style.overflow='hidden';setTimeout(()=>modal.querySelector('.close').focus(),0)}
+    function closeModal(modal){modal.hidden=true;document.body.style.overflow='';if(lastFocus)lastFocus.focus()}
+    function openInquiry(d,trigger){document.querySelector('#inquirySubtitle').textContent=`${d.city} · ${d.dates}`;document.querySelector('#destinationInput').value=`${d.city} — ${d.hotel}`;document.querySelector('#inquiryForm textarea').value=`Hi, I’d like to check availability for the ${d.city} stay from ${d.dates}.`;document.querySelector('#success').hidden=true;openModal(inquiry,trigger)}
+    function openLightbox(photo,trigger){const image=document.querySelector('#lightboxImage');image.src=photo.url;image.alt=photo.alt;document.querySelector('#lightboxCaption').textContent=photo.caption;openModal(lightbox,trigger)}
+    document.querySelectorAll('.modal').forEach(modal=>{modal.querySelector('.close').addEventListener('click',()=>closeModal(modal));modal.addEventListener('click',e=>{if(e.target===modal)closeModal(modal)})});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!lightbox.hidden)closeModal(lightbox);else if(!inquiry.hidden)closeModal(inquiry)}});
+    document.querySelector('#inquiryForm').addEventListener('submit',e=>{e.preventDefault();document.querySelector('#success').hidden=false});
+    grid.addEventListener('error',e=>{if(e.target.matches('.slide-image'))e.target.closest('.slide-button').classList.add('image-failed');if(e.target.matches('.cover-image'))e.target.hidden=true},true);
+  </script>
+</body>
+</html>
