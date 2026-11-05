@@ -87,12 +87,13 @@
       <button class="close" type="button" aria-label="Close inquiry form">×</button>
       <h2 id="inquiryTitle">Request to book</h2>
       <p id="inquirySubtitle"></p>
-      <form id="inquiryForm" action="https://formsubmit.co/biru22b@mtholyoke.edu" method="POST">
-        <input type="hidden" name="_subject" id="subjectInput" value="New travel stay request">
+      <form id="inquiryForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="c5380046-5904-4167-91e5-2c7d475659f9">
+        <input type="hidden" name="subject" id="subjectInput" value="New travel stay request">
+        <input type="hidden" name="from_name" value="Celebrate Somewhere New">
+        <input type="hidden" name="redirect" value="https://helinabiru.github.io/Traveller/?sent=1">
         <input type="hidden" name="request_type" id="requestTypeInput" value="Booking request">
-        <input type="hidden" name="_next" value="https://helinabiru.github.io/Traveller/?sent=1">
-        <input type="hidden" name="_template" value="table">
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
         <label class="field">Name<input name="name" autocomplete="name" required></label>
         <label class="field">Email<input name="email" type="email" autocomplete="email" required></label>
         <label class="field">Destination<input name="destination" id="destinationInput" readonly></label>
