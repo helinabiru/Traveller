@@ -160,7 +160,7 @@
       <div class="content">
         <h3 class="hotel">${esc(d.hotel)}</h3><p class="date">${esc(d.dates)}</p><p class="duration">${esc(d.duration)}</p>
         <div class="specs">${d.specs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>
-        <div class="price-row"><div><span class="price-label">Special offer</span><span class="price">${esc(d.price)}</span></div><span class="price-note">${esc(d.priceNote)}</span></div>
+        <div class="price-row"><div><span class="price-label">Special offer</span><span class="price">${esc(d.price)}</span></div><span class="price-note">Taxes &amp; fees included in confirmed quote</span></div>
         <div class="actions"><button class="btn details-toggle" type="button" aria-expanded="false">View Stay</button><button class="btn secondary request-book" type="button">Request to Book</button><button class="inquire-link inquire" type="button">Inquire About This Stay</button></div>
         <div class="details" hidden><p><strong>Room:</strong> ${esc(d.specs.join(' · '))}</p><ul>${d.highlights.map(item=>`<li>${esc(item)}</li>`).join('')}</ul><p><a class="source" href="${esc(d.source)}" target="_blank" rel="noopener noreferrer">View official hotel listing ↗</a></p></div>
       </div></article>`}
